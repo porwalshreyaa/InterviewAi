@@ -96,6 +96,7 @@ app.post("/analyze", upload.single("cv"), async (req, res) => {
     // Try to parse JSON
     try {
       const json = JSON.parse(raw);
+      
       return res.json(json);
     } catch (err) {
       console.error("JSON PARSE ERROR:", err);
