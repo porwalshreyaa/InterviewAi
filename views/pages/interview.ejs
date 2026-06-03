@@ -1,0 +1,83 @@
+<%- include('../partials/head', {
+  title: 'Voice interview — Interview AI',
+  bodyClass: 'bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col'
+}) %>
+
+<%- include('../partials/navbar') %>
+
+<main class="flex-1 max-w-3xl w-full mx-auto px-4 py-24">
+  <header class="mb-8 text-center">
+    <p class="text-sm text-slate-500 mb-1">Mock interview for</p>
+    <h1 class="section-title text-2xl sm:text-3xl font-bold mb-2">
+      <%= role || 'Your target role' %>
+    </h1>
+    <p class="text-slate-600 text-sm max-w-lg mx-auto">
+      The AI asks one question at a time. Listen, then answer using your microphone.
+      Your responses are sent back for a final review.
+    </p>
+  </header>
+
+  <div id="errorBox" class="hidden mb-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm"></div>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <span id="statusBadge" class="badge-neutral px-3 py-1 rounded-full text-xs font-medium">Ready</span>
+      <span id="progressText" class="text-xs text-slate-500">Ready to start</span>
+    </div>
+    <div class="w-full bg-slate-100 rounded-full h-2 mb-6">
+      <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+    </div>
+
+    <div class="mb-4">
+      <span id="questionType" class="badge px-2.5 py-0.5 rounded text-xs font-medium">—</span>
+    </div>
+    <div id="questionText" class="text-lg sm:text-xl font-medium text-slate-900 leading-relaxed min-h-[4rem]">
+      Press start when you're ready. Make sure your microphone is enabled.
+    </div>
+  </section>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <h2 class="text-sm font-semibold text-slate-700 mb-3">Your answer</h2>
+    <p id="interimText" class="text-xs text-slate-400 mb-2 italic min-h-[1rem]"></p>
+    <textarea
+      id="answerText"
+      rows="4"
+      placeholder="Your spoken answer will appear here. You can also type if voice is unavailable."
+      class="input-field w-full rounded-lg p-3 text-sm mb-4 resize-y"
+    ></textarea>
+
+    <div class="flex flex-wrap gap-3">
+      <button id="micBtn" type="button" class="btn-secondary px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+        </svg>
+        Toggle mic
+      </button>
+      <button id="submitBtn" type="button" class="btn-primary px-4 py-2.5 rounded-lg text-sm font-medium" disabled>
+        Submit answer
+      </button>
+      <button id="skipBtn" type="button" class="btn-secondary px-4 py-2.5 rounded-lg text-sm font-medium" disabled>
+        Skip
+      </button>
+    </div>
+  </section>
+
+  <button
+    id="startBtn"
+    type="button"
+    class="btn-primary w-full py-3 rounded-lg font-semibold text-sm mb-6"
+  >
+    Start voice interview
+  </button>
+
+  <section id="reviewPanel" class="hidden card rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Generating interview review…</h2>
+    <pre id="reviewStream" class="text-xs text-slate-500 whitespace-pre-wrap font-mono max-h-48 overflow-y-auto"></pre>
+  </section>
+
+  <a href="/analyze" class="link-muted text-sm block text-center">← Back to resume analysis</a>
+</main>
+
+<script src="/js/interview.js"></script>
+
+<%- include('../partials/footer') %>

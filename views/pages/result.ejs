@@ -11,9 +11,43 @@
       Candidate profile & interview questions
     </h1>
     <p class="text-slate-600 text-sm">
-      Personalized evaluation based on your resume and target role.
+      Personalized evaluation based on your resume and target role<% if (role) { %>: <strong><%= role %></strong><% } %>.
     </p>
   </header>
+
+  <% if (data.interviewerBrief) { %>
+  <section class="card rounded-xl p-6 mb-6 border-l-4 border-l-blue-500">
+    <h2 class="text-lg font-semibold text-slate-900 mb-1">Interviewer brief</h2>
+    <p class="text-xs text-slate-500 mb-4">Summary for the hiring manager before the interview</p>
+    <p class="text-slate-600 text-sm leading-relaxed mb-5"><%= data.interviewerBrief.overview %></p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <p class="text-sm font-medium text-slate-700 mb-2">Key highlights to validate</p>
+        <ul class="list-disc ml-5 text-slate-600 text-sm space-y-1">
+          <% (data.interviewerBrief.keyHighlights || []).forEach(h => { %>
+          <li><%= h %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-medium text-slate-700 mb-2">Concerns to probe</p>
+        <ul class="list-disc ml-5 text-slate-600 text-sm space-y-1">
+          <% (data.interviewerBrief.concernsToProbe || []).forEach(c => { %>
+          <li><%= c %></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <% if (data.interviewerBrief.recommendedFocus) { %>
+    <p class="text-sm text-slate-600 mt-5 pt-4 border-t border-slate-100">
+      <span class="font-medium text-slate-700">Recommended focus:</span>
+      <%= data.interviewerBrief.recommendedFocus %>
+    </p>
+    <% } %>
+  </section>
+  <% } %>
 
   <section class="card rounded-xl p-6 mb-6">
     <h2 class="text-lg font-semibold text-slate-900 mb-3">Summary</h2>
@@ -86,6 +120,13 @@
       <% }) %>
     </ol>
   </section>
+
+  <a
+    href="/interview"
+    class="btn-primary block text-center w-full py-3 rounded-lg font-semibold text-sm mb-4"
+  >
+    Start voice interview
+  </a>
 
   <a
     href="/resume"

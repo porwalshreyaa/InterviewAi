@@ -3,6 +3,7 @@ import cors from "cors";
 import session from "express-session"; 
 
 import staticRoute from "./routes/staticRouter.js";
+import apiRoute from "./routes/apiRouter.js";
 import path from 'path';
 
 
@@ -20,7 +21,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || "keyboard cat",
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 10 } // expires after 10 minutes
+  cookie: { maxAge: 1000 * 60 * 60 } // 1 hour for interview sessions
 }));
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 
 
 app.use('/', staticRoute);
+app.use('/api', apiRoute);
 
 app.use((req, res, next) => {
   res.status(404).render("pages/error", {status:404, message:"Page Not Found"})

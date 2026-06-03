@@ -1,5 +1,6 @@
 import { PDFParse } from "pdf-parse";
 import { groq } from "../groq.js";
+import { parseJsonFromLLM } from "../services/ai.js";
 
 
 async function handleCV(req, res) {
@@ -41,6 +42,12 @@ async function handleCV(req, res) {
       
       {
         "summary": "",
+        "interviewerBrief": {
+          "overview": "",
+          "keyHighlights": [],
+          "concernsToProbe": [],
+          "recommendedFocus": ""
+        },
         "skills": {
           "hardSkills": [],
           "softSkills": []
@@ -55,6 +62,11 @@ async function handleCV(req, res) {
       DETAILED REQUIREMENTS:
       
       - "summary": A concise 5–7 sentence summary of the candidate created from the CV.
+      - "interviewerBrief": A brief for the hiring manager / interviewer (NOT the candidate):
+          - "overview": 3–4 sentences on who this candidate is and fit for "${role}"
+          - "keyHighlights": 3–5 bullet-worthy strengths to validate in interview
+          - "concernsToProbe": 2–4 gaps or risks to explore during interview
+          - "recommendedFocus": 1–2 sentences on what areas the interview should emphasize
       - "hardSkills": Extract technologies, tools, programming skills, frameworks, certifications, domain skills.
       - "softSkills": Extract behavioral, communication, leadership, teamwork, problem-solving skills.
       - "seniority": Determine if the candidate is junior, mid-level, senior, or unknown.
@@ -85,7 +97,8 @@ async function handleCV(req, res) {
             return res.status(500).render("pages/error",{ status:500, message: "empty_model_response" });
         }
         try {
-            req.session.data  = JSON.parse(raw);
+            req.session.data = parseJsonFromLLM(raw);
+            req.session.role = role;
 
             return res.redirect("/analyze");
         } catch (err) {
