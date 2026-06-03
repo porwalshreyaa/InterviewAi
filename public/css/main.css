@@ -119,3 +119,49 @@ body {
 .link-muted:hover {
   color: var(--color-primary);
 }
+
+.mic-btn {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    box-shadow 0.2s ease;
+  border: 1px solid var(--color-border);
+}
+
+#micBtn.mic-btn--inactive {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: none;
+}
+
+#micBtn.mic-btn--inactive:hover:not(:disabled) {
+  border-color: #cbd5e1 !important;
+  background-color: #f1f5f9 !important;
+}
+
+#micBtn.mic-btn--active {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #b91c1c !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+
+#micBtn.mic-btn--active:hover:not(:disabled) {
+  background-color: #b91c1c !important;
+}
+
+@keyframes micPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12);
+  }
+}
+
+#micBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  animation: none;
+}

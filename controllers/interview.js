@@ -40,26 +40,14 @@ export function startInterview(req, res) {
   delete req.session.interviewReview;
 
   req.session.save((err) => {
-    if (err) return res.status(500).json({ error: "Failed to start interview session." });
+    if (err) {
+      return res.status(500).json({ error: "Failed to start interview session." });
+    }
     res.json({
       totalQuestions: questions.length,
       currentIndex: 0,
       status: "in_progress",
     });
-  });
-}
-
-export function getInterviewStatus(req, res) {
-  const interview = req.session.interview;
-  if (!interview) {
-    return res.json({ status: "not_started" });
-  }
-
-  res.json({
-    status: interview.status,
-    currentIndex: interview.currentIndex,
-    totalQuestions: interview.questions.length,
-    answeredCount: interview.answers.length,
   });
 }
 
@@ -99,12 +87,10 @@ export function streamQuestion(req, res) {
     res.write(
       `data: ${JSON.stringify({ chunk, text: buffer, index: idx, type: question.type })}\n\n`
     );
-
     setTimeout(sendChunk, 35);
   };
 
   sendChunk();
-
   req.on("close", () => {
     words.length = 0;
   });
@@ -117,7 +103,7 @@ export function submitAnswer(req, res) {
   }
 
   const { answer } = req.body;
-  if (!answer || !answer.trim()) {
+  if (!answer?.trim()) {
     return res.status(400).json({ error: "Answer cannot be empty." });
   }
 
@@ -135,15 +121,15 @@ export function submitAnswer(req, res) {
   });
 
   interview.currentIndex += 1;
-
   if (interview.currentIndex >= interview.questions.length) {
     interview.status = "completed";
     interview.completedAt = new Date().toISOString();
   }
 
   req.session.save((err) => {
-    if (err) return res.status(500).json({ error: "Failed to save answer." });
-
+    if (err) {
+      return res.status(500).json({ error: "Failed to save answer." });
+    }
     res.json({
       status: interview.status,
       currentIndex: interview.currentIndex,
@@ -159,19 +145,17 @@ export async function streamReview(req, res) {
     return res.status(400).json({ error: "Interview is not complete yet." });
   }
 
-  if (req.session.interviewReview) {
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.flushHeaders?.();
-    res.write(`data: ${JSON.stringify({ review: req.session.interviewReview, cached: true })}\n\n`);
-    res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
-    return res.end();
-  }
-
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders?.();
+
+  if (req.session.interviewReview) {
+    res.write(
+      `data: ${JSON.stringify({ review: req.session.interviewReview, done: true })}\n\n`
+    );
+    return res.end();
+  }
 
   try {
     const review = await streamInterviewReview({
@@ -193,15 +177,4 @@ export async function streamReview(req, res) {
     res.write(`data: ${JSON.stringify({ error: "Failed to generate review." })}\n\n`);
     res.end();
   }
-}
-
-export function getReview(req, res) {
-  if (!req.session.interviewReview) {
-    return res.status(404).json({ error: "Review not available yet." });
-  }
-  res.json({
-    review: req.session.interviewReview,
-    qaPairs: req.session.interview?.answers || [],
-    role: req.session.role,
-  });
 }

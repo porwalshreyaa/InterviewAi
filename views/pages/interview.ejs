@@ -13,7 +13,7 @@
     </h1>
     <p class="text-slate-600 text-sm max-w-lg mx-auto">
       The AI asks one question at a time. Listen, then answer using your microphone.
-      Your responses are sent back for a final review.
+      Your speech is transcribed as spoken — nothing is rewritten or spell-corrected.
     </p>
   </header>
 
@@ -47,11 +47,17 @@
     ></textarea>
 
     <div class="flex flex-wrap gap-3">
-      <button id="micBtn" type="button" class="btn-secondary px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2" disabled>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button
+        id="micBtn"
+        type="button"
+        class="mic-btn mic-btn--inactive px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2"
+        aria-pressed="false"
+        disabled
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
         </svg>
-        Toggle mic
+        <span id="micBtnLabel">Mic off</span>
       </button>
       <button id="submitBtn" type="button" class="btn-primary px-4 py-2.5 rounded-lg text-sm font-medium" disabled>
         Submit answer
