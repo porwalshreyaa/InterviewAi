@@ -1,0 +1,21 @@
+<%- include('../partials/head', {
+  title: typeof status !== 'undefined' ? status + ' — Interview AI' : 'Error — Interview AI',
+  bodyClass: 'bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col'
+}) %>
+
+<%- include('../partials/navbar') %>
+
+<main class="flex-1 flex items-center justify-center px-4 py-24">
+  <div
+    role="alert"
+    class="card-elevated max-w-md w-full rounded-2xl p-10 text-center"
+  >
+    <p class="text-6xl font-bold text-blue-600 mb-4"><%= status %></p>
+    <p class="text-slate-600 mb-8 leading-relaxed"><%= message %></p>
+    <a href="/" class="btn-primary inline-block px-8 py-3 rounded-lg font-semibold text-sm">
+      Back to home
+    </a>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

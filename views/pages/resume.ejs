@@ -1,0 +1,63 @@
+<%- include('../partials/head', {
+  title: 'Upload resume — Interview AI',
+  bodyClass: 'bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col'
+}) %>
+
+<%- include('../partials/navbar') %>
+
+<main class="flex-1 flex items-center justify-center px-4 py-24">
+  <div class="card-elevated max-w-lg w-full rounded-2xl p-8 sm:p-10">
+    <h1 class="section-title text-2xl sm:text-3xl font-bold mb-2">
+      Resume evaluation
+    </h1>
+    <p class="text-slate-600 mb-8 text-sm leading-relaxed">
+      Upload your CV (PDF) and enter the role you are applying for. Analysis
+      typically takes under a minute.
+    </p>
+
+    <form
+      action="/analyze"
+      method="post"
+      enctype="multipart/form-data"
+      class="space-y-6"
+    >
+      <div>
+        <label for="cvFile" class="block text-sm font-medium text-slate-700 mb-2">
+          Your CV (PDF)
+        </label>
+        <input
+          type="file"
+          id="cvFile"
+          name="cv"
+          accept="application/pdf"
+          required
+          class="input-field w-full rounded-lg p-3 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        />
+      </div>
+
+      <div>
+        <label for="roleInput" class="block text-sm font-medium text-slate-700 mb-2">
+          Target role
+        </label>
+        <input
+          type="text"
+          id="roleInput"
+          name="role"
+          placeholder="e.g. Data Scientist"
+          required
+          class="input-field w-full rounded-lg p-3 text-sm"
+        />
+      </div>
+
+      <button
+        type="submit"
+        id="submitCV"
+        class="btn-primary w-full py-3 rounded-lg font-semibold text-sm"
+      >
+        Analyze CV
+      </button>
+    </form>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

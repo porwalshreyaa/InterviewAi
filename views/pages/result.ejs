@@ -1,0 +1,98 @@
+<%- include('../partials/head', {
+  title: 'Analysis results — Interview AI',
+  bodyClass: 'bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col'
+}) %>
+
+<%- include('../partials/navbar') %>
+
+<main class="flex-1 max-w-4xl w-full mx-auto px-4 py-24">
+  <header class="mb-10">
+    <h1 class="section-title text-2xl sm:text-3xl font-bold mb-2">
+      Candidate profile & interview questions
+    </h1>
+    <p class="text-slate-600 text-sm">
+      Personalized evaluation based on your resume and target role.
+    </p>
+  </header>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Summary</h2>
+    <p class="text-slate-600 text-sm leading-relaxed"><%= data.summary %></p>
+  </section>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-4">Skills</h2>
+
+    <div class="mb-5">
+      <p class="text-sm font-medium text-slate-700 mb-2">Hard skills</p>
+      <div class="flex flex-wrap gap-2">
+        <% data.skills.hardSkills.forEach(s => { %>
+        <span class="badge px-3 py-1 rounded-full text-xs font-medium"><%= s %></span>
+        <% }) %>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm font-medium text-slate-700 mb-2">Soft skills</p>
+      <div class="flex flex-wrap gap-2">
+        <% data.skills.softSkills.forEach(s => { %>
+        <span class="badge-neutral px-3 py-1 rounded-full text-xs font-medium"><%= s %></span>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Seniority</h2>
+    <span class="badge-warning inline-block px-4 py-1.5 rounded-md text-sm font-semibold">
+      <%= data.seniority %>
+    </span>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="card rounded-xl p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-3">Strengths</h2>
+      <ul class="list-disc ml-5 text-slate-600 text-sm space-y-1 leading-relaxed">
+        <% data.strengths.forEach(s => { %>
+        <li><%= s %></li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="card rounded-xl p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-3">Areas to improve</h2>
+      <ul class="list-disc ml-5 text-slate-600 text-sm space-y-1 leading-relaxed">
+        <% data.weaknesses.forEach(w => { %>
+        <li><%= w %></li>
+        <% }) %>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card rounded-xl p-6 mb-6">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Technical questions</h2>
+    <ol class="list-decimal ml-5 text-slate-600 text-sm space-y-2 leading-relaxed">
+      <% data.technicalQuestions.forEach(q => { %>
+      <li><%= q %></li>
+      <% }) %>
+    </ol>
+  </section>
+
+  <section class="card rounded-xl p-6 mb-10">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Behavioral questions</h2>
+    <ol class="list-decimal ml-5 text-slate-600 text-sm space-y-2 leading-relaxed">
+      <% data.behavioralQuestions.forEach(q => { %>
+      <li><%= q %></li>
+      <% }) %>
+    </ol>
+  </section>
+
+  <a
+    href="/resume"
+    class="btn-secondary block text-center w-full py-3 rounded-lg font-semibold text-sm"
+  >
+    Analyze another resume
+  </a>
+</main>
+
+<%- include('../partials/footer') %>

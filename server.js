@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 app.use('/', staticRoute);
 
 app.use((req, res, next) => {
-  res.status(404).render("error", {status:404, message:"Page Not Found"})
+  res.status(404).render("pages/error", {status:404, message:"Page Not Found"})
 })
 
 app.listen(3001, () =>

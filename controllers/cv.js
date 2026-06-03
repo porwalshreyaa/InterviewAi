@@ -9,11 +9,11 @@ async function handleCV(req, res) {
 
         if (!fileBuffer) {
             console.log(req)
-            return res.status(400).render("error",{ status: 400, message: "CV file missing" });
+            return res.status(400).render("pages/error",{ status: 400, message: "CV file missing" });
         }
         if (!role) {
             console.log(req)
-            return res.status(400).render("error",{ status: 400, message: "Which role are you preparing for?" });
+            return res.status(400).render("pages/error",{ status: 400, message: "Which role are you preparing for?" });
         }
         const parser = new PDFParse({ data: fileBuffer });
         const parsed = await parser.getText();
@@ -82,7 +82,7 @@ async function handleCV(req, res) {
         console.log("RAW MODEL OUTPUT:", raw);
 
         if (!raw) {
-            return res.status(500).render("error",{ status:500, message: "empty_model_response" });
+            return res.status(500).render("pages/error",{ status:500, message: "empty_model_response" });
         }
         try {
             req.session.data  = JSON.parse(raw);
@@ -91,7 +91,7 @@ async function handleCV(req, res) {
         } catch (err) {
             console.error("JSON PARSE ERROR:", err);
             console.log("RAW TEXT:\n", raw);
-            return res.status(500).render("error",{
+            return res.status(500).render("pages/error",{
                 status:500,
                 message: "The server returned invalid structured data. Please try again."
             });
@@ -99,7 +99,7 @@ async function handleCV(req, res) {
 
     } catch (err) {
         console.error("SERVER ERROR:", err);
-        return res.status(500).render("error",{status:500, message: "Server error."});
+        return res.status(500).render("pages/error",{status:500, message: "Server error."});
     }
 }
 

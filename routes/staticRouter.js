@@ -6,12 +6,12 @@ import multer from "multer";
 
 router.get("/", async (req, res) => {
     delete req.session.data;
-    return res.render("home");
+    return res.render("pages/home");
 });
 
 router.get("/resume", async (req, res) => {
     delete req.session.data;
-    return res.render("resume");
+    return res.render("pages/resume");
 });
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -21,7 +21,7 @@ router.route("/analyze")
         if (!req.session.data){
             return res.redirect("/resume")
         };
-        res.render("result", { data: req.session.data });
+        res.render("pages/result", { data: req.session.data });
     })
     .post(upload.single("cv"), handleCV)
 

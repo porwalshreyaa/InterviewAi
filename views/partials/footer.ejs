@@ -1,0 +1,12 @@
+    <footer class="border-t border-slate-200 bg-white mt-auto">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <p class="text-sm text-slate-500">
+          &copy; <%= new Date().getFullYear() %> Interview AI. All rights reserved.
+        </p>
+      </div>
+    </footer>
+    <% if (typeof pageScript !== 'undefined' && pageScript) { %>
+    <script src="<%= pageScript %>"></script>
+    <% } %>
+  </body>
+</html>
